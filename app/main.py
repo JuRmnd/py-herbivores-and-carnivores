@@ -1,11 +1,19 @@
-class Animal:
-    alive = []
+from __future__ import annotations
 
-    def __init__(self, name: str, health=100, hidden=False) -> None:
+
+class Animal:
+    alive: list[Animal] = []
+
+    def __init__(
+            self,
+            name: str,
+            health: int = 100,
+            hidden: bool = False
+    ) -> None:
         self.health = health
         self.name = name
         self.hidden = hidden
-        self.alive.append(self)
+        Animal.alive.append(self)
 
     def __repr__(self) -> str:
         return (
@@ -25,6 +33,4 @@ class Carnivore(Animal):
         if isinstance(animal, Herbivore) and not animal.hidden:
             animal.health -= 50
             if animal.health <= 0:
-                for index, alive_animal in enumerate(Animal.alive):
-                    if alive_animal.name == animal.name:
-                        Animal.alive.pop(index)
+                Animal.alive.remove(animal)
